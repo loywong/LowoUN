@@ -113,6 +113,79 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &78206189
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 78206193}
+  - component: {fileID: 78206192}
+  - component: {fileID: 78206191}
+  m_Layer: 0
+  m_Name: Camera
+  m_TagString: MainCamera
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!124 &78206191
+Behaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 78206189}
+  m_Enabled: 1
+--- !u!20 &78206192
+Camera:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 78206189}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_ClearFlags: 1
+  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_NormalizedViewPortRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+  near clip plane: 0.3
+  far clip plane: 1000
+  field of view: 60
+  orthographic: 0
+  orthographic size: 5
+  m_Depth: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RenderingPath: -1
+  m_TargetTexture: {fileID: 0}
+  m_TargetDisplay: 0
+  m_TargetEye: 3
+  m_HDR: 1
+  m_AllowMSAA: 1
+  m_AllowDynamicResolution: 0
+  m_ForceIntoRT: 0
+  m_OcclusionCulling: 1
+  m_StereoConvergence: 10
+  m_StereoSeparation: 0.022
+--- !u!4 &78206193
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 78206189}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1541689749
 GameObject:
   m_ObjectHideFlags: 0
@@ -151,7 +224,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1564243195
 GameObject:
@@ -163,7 +236,7 @@ GameObject:
   - component: {fileID: 1564243197}
   - component: {fileID: 1564243196}
   m_Layer: 0
-  m_Name: Module_Sound
+  m_Name: SoundMgr
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -180,13 +253,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca7a85014372945b38e3a703f5c7f08e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mainSfxVolume: 0.3
-  _mainBgmVolume: 0.2
-  setter_UI: {fileID: 114000013684052440, guid: 187f2f82179014d3eaef00dde3921b4c,
-    type: 2}
-  setter_Evt: {fileID: 11427906, guid: 08c3bdaec2c8d4cd9a62622e2e1ac62d, type: 2}
-  setters_Act_Collector: {fileID: 11467768, guid: a9c076aa2cd7c4730bcc25de30b4dbd0,
-    type: 2}
+  _sfxVolume: 1
+  _bgmVolume: 1
+  setterUI: {fileID: 114000013684052440, guid: 187f2f82179014d3eaef00dde3921b4c, type: 2}
+  setterEvt: {fileID: 11427906, guid: 08c3bdaec2c8d4cd9a62622e2e1ac62d, type: 2}
+  settersActor: {fileID: 11467768, guid: a9c076aa2cd7c4730bcc25de30b4dbd0, type: 2}
   isBgmEnable: 1
   isSfxEnable: 1
 --- !u!4 &1564243197
@@ -200,5 +271,5 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

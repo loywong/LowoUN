@@ -8,7 +8,8 @@ namespace LowoUN.Util {
 					return intValue;
 			}
 
-			return -2147483648; //range(-2147483648～+2147483647)
+			//range(-2147483648～+2147483647)
+			return -2147483648;
 		}
 	}
 }

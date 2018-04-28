@@ -51,15 +51,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72385ea94d5fc4a2b98c64dc8c0fc8d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_pitchRange:
-    m_max: 1
-    m_min: 1
-  m_rolloffDistance:
-    m_max: 100
-    m_min: 1
-  m_rolloffMode: 1
-  m_audioGroups:
-  - groupName: Click_Button
-    m_audioClips:
+  pitchRange:
+    max: 1
+    min: 1
+  rolloffDistance:
+    max: 100
+    min: 1
+  rolloffMode: 1
+  audioGroups:
+  - groupName: ButtonClick
+    audioClips:
     - {fileID: 8300000, guid: 2a528e2b0abf53c4d9bc4a16fef9c529, type: 3}
     Volume: 1

@@ -40,17 +40,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72385ea94d5fc4a2b98c64dc8c0fc8d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_pitchRange:
-    m_max: 1
-    m_min: 1
-  m_rolloffDistance:
-    m_max: 100
-    m_min: 1
-  m_rolloffMode: 1
-  m_audioGroups:
-  - groupName: Attack
-    m_audioClips:
-    - {fileID: 0}
+  pitchRange:
+    max: 1
+    min: 1
+  rolloffDistance:
+    max: 100
+    min: 1
+  rolloffMode: 1
+  audioGroups:
+  - groupName: Miss
+    audioClips:
+    - {fileID: 8300000, guid: 6bbf5357a38075b4f8ab43c53acc1bce, type: 3}
     Volume: 1
 --- !u!1001 &100100000
 Prefab:

@@ -5,46 +5,43 @@ using UnityEngine;
 namespace LowoUN.Module.Sound {
 	[System.Serializable]
 	public class Range {
-		public float m_max;
-		public float m_min;
-
-		public float max { get { return m_max; } }
-		public float min { get { return m_min; } }
+		public float max;
+		public float min;
 
 		public Range (float min, float max) {
-			m_min = min;
-			m_max = max;
+			this.min = min;
+			this.max = max;
 		}
 
 		public float GetRandom () {
-			return Random.Range (m_min, m_max);
+			return Random.Range (min, max);
 		}
 	}
 
 	[System.Serializable]
 	public class SoundGroup {
 		public string groupName = "";
-		public List<AudioClip> m_audioClips = new List<AudioClip> ();
+		public List<AudioClip> audioClips = new List<AudioClip> ();
 		public float Volume = 1f;
 	}
 
 	public class SoundSet : MonoBehaviour {
-		public Range m_pitchRange = new Range (1f, 1f);
-		public Range m_rolloffDistance = new Range (1f, 100f);
-		public AudioRolloffMode m_rolloffMode = AudioRolloffMode.Linear;
-		public List<SoundGroup> m_audioGroups = new List<SoundGroup> ();
-		protected AudioClip currentClip;
-		protected SoundGroup currentGroup;
+		public Range pitchRange = new Range (1f, 1f);
+		public Range rolloffDistance = new Range (1f, 100f);
+		public AudioRolloffMode rolloffMode = AudioRolloffMode.Linear;
+		public List<SoundGroup> audioGroups = new List<SoundGroup> ();
+		protected AudioClip curClip;
+		protected SoundGroup curGroup;
 
 		public void Awake () {
-			if (m_audioGroups != null && m_audioGroups.Count > 0)
-				currentGroup = m_audioGroups[0];
+			if (audioGroups != null && audioGroups.Count > 0)
+				curGroup = audioGroups[0];
 		}
 
 		public bool SetCurGroup (string groupName) {
-			foreach (SoundGroup group in m_audioGroups) {
+			foreach (SoundGroup group in audioGroups) {
 				if (group.groupName.Equals (groupName, System.StringComparison.OrdinalIgnoreCase)) {
-					currentGroup = group;
+					curGroup = group;
 					return true;
 				}
 			}
@@ -54,30 +51,30 @@ namespace LowoUN.Module.Sound {
 
 		protected AudioClip GetRandomClip () {
 			List<AudioClip> list = new List<AudioClip> ();
-			foreach (AudioClip clip in currentGroup.m_audioClips) {
-				if ((clip != null) && ((clip != currentClip) || (currentGroup.m_audioClips.Count < 2))) {
+			foreach (AudioClip clip in curGroup.audioClips) {
+				if ((clip != null) && ((clip != curClip) || (curGroup.audioClips.Count < 2))) {
 					list.Add (clip);
 				}
 			}
 
 			if (list.Count > 0)
-				currentClip = list[Random.Range (0, list.Count)];
+				curClip = list[Random.Range (0, list.Count)];
 			else
-				currentClip = null;
+				curClip = null;
 
-			return currentClip;
+			return curClip;
 		}
 
 		public bool HasSounds () {
-			return (m_audioGroups.Count > 0);
+			return (audioGroups.Count > 0);
 		}
 
 		public AudioSource Play (string GroupName, GameObject sourceObject) {
-			return Play (GroupName, sourceObject, Module_Sound.instance.mainSfxVolume, false, true);
+			return Play (GroupName, sourceObject, SoundMgr.ins.sfxVolume, false, true);
 		}
 
 		public AudioSource Play (string GroupName, Vector3 position) {
-			return Play (GroupName, position, Module_Sound.instance.mainSfxVolume, false);
+			return Play (GroupName, position, SoundMgr.ins.sfxVolume, false);
 		}
 
 		private void Play (AudioSource source, float volume) {
@@ -88,7 +85,7 @@ namespace LowoUN.Module.Sound {
 		}
 
 		public AudioSource Play (string GroupName, GameObject sourceObject, bool attachToObject) {
-			return Play (GroupName, sourceObject, Module_Sound.instance.mainSfxVolume, false, attachToObject);
+			return Play (GroupName, sourceObject, SoundMgr.ins.sfxVolume, false, attachToObject);
 		}
 
 		public AudioSource Play (string GroupName, GameObject sourceObject, float volume) {
@@ -109,8 +106,8 @@ namespace LowoUN.Module.Sound {
 			GameObject obj2 = new GameObject ("AudioSource") { transform = { position = position } };
 			AudioSource source = obj2.AddComponent<AudioSource> ();
 			Play (source, volume);
-			obj2.name = obj2.name + ": " + (!loop ? "Clip[" : ", Looping clip[") + ((currentClip == null) ? "null]" : (currentClip.name + "]"));
-			if (currentClip == null) {
+			obj2.name = obj2.name + ": " + (!loop ? "Clip[" : ", Looping clip[") + ((curClip == null) ? "null]" : (curClip.name + "]"));
+			if (curClip == null) {
 				Object.Destroy (obj2);
 				return null;
 			}
@@ -120,7 +117,7 @@ namespace LowoUN.Module.Sound {
 				return source;
 			}
 
-			Object.Destroy (obj2, currentClip.length);
+			Object.Destroy (obj2, curClip.length);
 
 			return source;
 		}
@@ -137,7 +134,7 @@ namespace LowoUN.Module.Sound {
 				return source;
 			}
 
-			if (m_audioGroups.Count > 0) {
+			if (audioGroups.Count > 0) {
 				string name;
 				if (sourceObject == null) {
 					name = "[Null source object specified]!";
@@ -155,7 +152,7 @@ namespace LowoUN.Module.Sound {
 		}
 
 		public AudioSource PlayLoop (string GroupName, GameObject sourceObject) {
-			return Play (GroupName, sourceObject, Module_Sound.instance.mainSfxVolume, true, true);
+			return Play (GroupName, sourceObject, SoundMgr.ins.sfxVolume, true, true);
 		}
 
 		public void PlayOneShot (AudioSource source, float volume) {
@@ -180,19 +177,22 @@ namespace LowoUN.Module.Sound {
 			}
 
 			source.spatialBlend = 0;
-			source.volume = currentGroup.Volume * volume; //1f;
-			source.pitch = m_pitchRange.GetRandom ();
+			source.volume = curGroup.Volume * volume;
+			source.pitch = pitchRange.GetRandom ();
 			source.dopplerLevel = 0f;
-			source.minDistance = m_rolloffDistance.min;
-			source.maxDistance = m_rolloffDistance.max;
-			source.rolloffMode = m_rolloffMode;
+			source.minDistance = rolloffDistance.min;
+			source.maxDistance = rolloffDistance.max;
+			source.rolloffMode = rolloffMode;
 			source.playOnAwake = false;
+
 			return true;
 		}
 
 		public void Stop (AudioSource s, float fadeOutTime) {
-			if (s != null && s.isPlaying)
-				Module_Sound.instance.PlayFadeAudio (s, false, fadeOutTime); //s.Stop();
+			if (s != null && s.isPlaying) {
+				//s.Stop();
+				SoundMgr.ins.PlayFadeAudio (s, false, fadeOutTime); 
+			}
 		}
 	}
 }

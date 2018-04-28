@@ -40,45 +40,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72385ea94d5fc4a2b98c64dc8c0fc8d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_pitchRange:
-    m_max: 1
-    m_min: 1
-  m_rolloffDistance:
-    m_max: 100
-    m_min: 1
-  m_rolloffMode: 1
-  m_audioGroups:
-  - groupName: Fly
-    m_audioClips:
-    - {fileID: 0}
-    - {fileID: 0}
+  pitchRange:
+    max: 1
+    min: 1
+  rolloffDistance:
+    max: 100
+    min: 1
+  rolloffMode: 1
+  audioGroups:
+  - groupName: Atk1
+    audioClips:
+    - {fileID: 8300000, guid: d31b4ebd4b0f84d9aa21668e5c3d0927, type: 3}
     Volume: 1
-  - groupName: 11
-    m_audioClips:
-    - {fileID: 0}
+  - groupName: Atk2
+    audioClips:
+    - {fileID: 8300000, guid: ce80cc839d2f840bca4e89a51685c8da, type: 3}
     Volume: 1
-  - groupName: Gasp
-    m_audioClips:
-    - {fileID: 0}
-    Volume: 1
-  - groupName: Snarl
-    m_audioClips:
-    - {fileID: 0}
-    Volume: 1
-  - groupName: Attack1
-    m_audioClips:
-    - {fileID: 0}
-    Volume: 1
-  - groupName: Impact1
-    m_audioClips:
-    - {fileID: 0}
-    Volume: 1
-  - groupName: Attack0
-    m_audioClips:
-    - {fileID: 0}
-    Volume: 1
-  - groupName: Impact0
-    m_audioClips: []
+  - groupName: Atk
+    audioClips:
+    - {fileID: 8300000, guid: 3e7c7d3be1490a44697b2b23fc0eb138, type: 3}
     Volume: 1
 --- !u!1001 &100100000
 Prefab:

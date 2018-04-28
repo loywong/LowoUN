@@ -40,7 +40,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 405ac16e065b842ab9535f190324ea11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GameSoundSets:
+  gameSoundSets:
   - {fileID: 11427906, guid: e49222ca688d6465285e5fa11486f087, type: 2}
   - {fileID: 11427906, guid: 4bd702970033b4d9cbc95f119889ebb3, type: 2}
   - {fileID: 11416724, guid: eba4ca68ea18a4a0cb10ab49894b8a0d, type: 2}
