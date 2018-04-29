@@ -1,10 +1,17 @@
 ﻿using System.Collections;
+using LowoUN.Util;
 using UnityEngine;
 
 namespace LowoUN.Module.Sound.Sample {
 	public class Sample_Sound : MonoBehaviour {
 		void Start () {
-			INI.OnInit ();
+			#if UNITY_EDITOR
+			Debug.unityLogger.logEnabled = true;
+#else
+			Debug.logger.logEnabled = false;
+#endif
+
+			Log.OpenTag ("sound");
 		}
 
 		void OnGUI () {
