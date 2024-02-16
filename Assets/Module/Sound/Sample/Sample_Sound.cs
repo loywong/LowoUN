@@ -5,7 +5,7 @@ using UnityEngine;
 namespace LowoUN.Module.Sound.Sample {
 	public class Sample_Sound : MonoBehaviour {
 		void Start () {
-			#if UNITY_EDITOR
+#if UNITY_EDITOR
 			Debug.unityLogger.logEnabled = true;
 #else
 			Debug.logger.logEnabled = false;
