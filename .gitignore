@@ -53,7 +53,7 @@ _[Tt]emp
 [Ll]ogs
 
 *.DS_Store
-# .vscode
+.vscode
 # /UnityPackageManager/
 
 # ProjectSettings
