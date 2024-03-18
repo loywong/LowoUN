@@ -145,7 +145,7 @@ public class ResReference : EditorWindow {
     /// <summary>
     /// 查找对象所有依赖，和对它的引用
     /// </summary>
-    [MenuItem ("Assets/Find Resource Dependencies", false, 2)]
+    [MenuItem ("Assets/Find Resource Dependencies", false, 6)]
     public static void FindObjectDependencies () {
         ShowProgress (0, 0, 0);
         Dictionary<string, List<string>> dic = new Dictionary<string, List<string>> ();
