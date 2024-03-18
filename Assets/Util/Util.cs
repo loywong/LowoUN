@@ -1,6 +1,18 @@
 ﻿using UnityEngine;
 
 namespace LowoUN.Util {
+	public static class EnumParse {
+		public static int GetEnumID (string name, System.Type e) {
+			foreach (int intValue in System.Enum.GetValues (e)) {
+				if (name == System.Enum.GetName (e, intValue))
+					return intValue;
+			}
+
+			//range(-2147483648～+2147483647)
+			return -2147483648;
+		}
+	}
+
 	public static class ColorTrans {
 		public static Color hexToColor (string hex) {
 			//in case the string is formatted 0xFFFFFF
@@ -18,7 +30,7 @@ namespace LowoUN.Util {
 			if (hex.Length == 8) {
 				a = byte.Parse (hex.Substring (6, 2), System.Globalization.NumberStyles.HexNumber);
 			}
-			
+
 			return new Color32 (r, g, b, a);
 		}
 	}
