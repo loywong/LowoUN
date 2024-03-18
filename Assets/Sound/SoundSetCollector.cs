@@ -1,12 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using LowoUN.Util;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace LowoUN.Module.Sound {
+namespace LowoUN.Sound {
 	public class SoundSetCollector : MonoBehaviour {
 		public static SoundSetCollector instance;
-		
+
 		[SerializeField] private SoundSet[] gameSoundSets;
 		protected Dictionary<string, int> soundSetDict = new Dictionary<string, int> ();
 
@@ -18,7 +16,7 @@ namespace LowoUN.Module.Sound {
 					if (!soundSetDict.ContainsKey (gameSoundSets[i].name))
 						soundSetDict.Add (gameSoundSets[i].name, i);
 					else
-						Log.Error ("sound", "Duplicate sound set: " + gameSoundSets[i].name + " @" + i);
+						Debug.LogError ("sound_ Duplicate sound set: " + gameSoundSets[i].name + " @" + i);
 				}
 			}
 		}
@@ -26,8 +24,8 @@ namespace LowoUN.Module.Sound {
 		public SoundSet GetSoundSet (string name) {
 			if (soundSetDict.ContainsKey (name))
 				return gameSoundSets[soundSetDict[name]];
-			
-			Log.Warn ("sound", "Sound set not added to the SoundSetManager prefab: " + name);
+
+			Debug.LogWarning ("sound_ Sound set not added to the SoundSetManager prefab: " + name);
 
 			return null;
 		}

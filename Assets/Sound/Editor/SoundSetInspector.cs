@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-namespace LowoUN.Module.Sound {
+namespace LowoUN.Sound {
     [CustomEditor (typeof (SoundSet))]
     public class SoundSetInspector : Editor {
         private SoundSet theScript;

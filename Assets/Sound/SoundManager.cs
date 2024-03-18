@@ -1,15 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
-using LowoUN.Util;
 using UnityEngine;
 
-namespace LowoUN.Module.Sound {
-	public class SoundMgr : MonoBehaviour {
-		private static SoundMgr _ins;
-		public static SoundMgr ins {
+namespace LowoUN.Sound
+{
+    public class SoundManager : MonoBehaviour {
+		private static SoundManager _ins;
+		public static SoundManager ins {
 			get {
 				if (_ins == null)
-					Log.Error ("sound", "No sound module found!");
+					Debug.Log ("sound_ No sound module found!");
 
 				return _ins;
 			}
@@ -23,10 +23,10 @@ namespace LowoUN.Module.Sound {
 		[SerializeField] private bool isBgmEnable = true;
 		[SerializeField] private bool isSfxEnable = true;
 
-		public float bgmVolume { get { return _bgmVolume; } private set { _bgmVolume = value; } }
 		//inclule evt and ui type
 		public float sfxVolume { get { return _sfxVolume; } private set { _sfxVolume = value; } }
 
+		public float bgmVolume { get { return _bgmVolume; } private set { _bgmVolume = value; } }
 		private AudioSource bgmSource;
 		private bool isStopOrPlayCurBgm = false;
 		private float fadeVolume = 0.0f;
@@ -34,7 +34,6 @@ namespace LowoUN.Module.Sound {
 		private float fadeOutTime = 1.0f;
 		private Transform listener;
 		private Transform followThing = null;
-
 		private string curBgmName = "";
 
 		private bool hasInit = false;
@@ -118,7 +117,7 @@ namespace LowoUN.Module.Sound {
 		private IEnumerator LoadAndPlayBgm (string bundleName, bool loop, float fadeInTime) {
 			yield return null;
 
-			Log.Trace ("sound", "LoadAndPlayBgm with bundleName: " + bundleName);
+			Debug.Log("sound_ LoadAndPlayBgm with bundleName: " + bundleName);
 
 			if (bgmSource.clip != null) {
 				Resources.UnloadAsset (bgmSource.clip);
@@ -192,7 +191,7 @@ namespace LowoUN.Module.Sound {
 				}
 			}
 
-			if(followThing != null) {
+			if (followThing != null) {
 				listener.position = followThing.position;
 				listener.rotation = followThing.rotation;
 			}
