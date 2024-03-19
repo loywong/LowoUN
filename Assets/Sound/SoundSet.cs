@@ -69,11 +69,11 @@ namespace LowoUN.Sound {
 		}
 
 		public AudioSource Play (string GroupName, GameObject sourceObject) {
-			return Play (GroupName, sourceObject, SoundManager.ins.sfxVolume, false, true);
+			return Play (GroupName, sourceObject, SoundManager.Instance.sfxVolume, false, true);
 		}
 
 		public AudioSource Play (string GroupName, Vector3 position) {
-			return Play (GroupName, position, SoundManager.ins.sfxVolume, false);
+			return Play (GroupName, position, SoundManager.Instance.sfxVolume, false);
 		}
 
 		private void Play (AudioSource source, float volume) {
@@ -84,7 +84,7 @@ namespace LowoUN.Sound {
 		}
 
 		public AudioSource Play (string GroupName, GameObject sourceObject, bool attachToObject) {
-			return Play (GroupName, sourceObject, SoundManager.ins.sfxVolume, false, attachToObject);
+			return Play (GroupName, sourceObject, SoundManager.Instance.sfxVolume, false, attachToObject);
 		}
 
 		public AudioSource Play (string GroupName, GameObject sourceObject, float volume) {
@@ -151,7 +151,7 @@ namespace LowoUN.Sound {
 		}
 
 		public AudioSource PlayLoop (string GroupName, GameObject sourceObject) {
-			return Play (GroupName, sourceObject, SoundManager.ins.sfxVolume, true, true);
+			return Play (GroupName, sourceObject, SoundManager.Instance.sfxVolume, true, true);
 		}
 
 		public void PlayOneShot (AudioSource source, float volume) {
@@ -190,7 +190,7 @@ namespace LowoUN.Sound {
 		public void Stop (AudioSource s, float fadeOutTime) {
 			if (s != null && s.isPlaying) {
 				//s.Stop();
-				SoundManager.ins.PlayFadeAudio (s, false, fadeOutTime);
+				SoundManager.Instance.PlayFadeAudio (s, false, fadeOutTime);
 			}
 		}
 	}

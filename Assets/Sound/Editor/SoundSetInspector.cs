@@ -13,7 +13,7 @@ namespace LowoUN.Sound {
         private int[] sizes;
 
         public override void OnInspectorGUI () {
-            EditorGUIUtility.LookLikeInspector ();
+            // EditorGUIUtility.LookLikeInspector (); //this is obsolete
             theScript = (SoundSet) target;
 
             theScript.pitchRange.min = EditorGUILayout.FloatField ("pitchRange min", theScript.pitchRange.min);

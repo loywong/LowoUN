@@ -2,31 +2,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace LowoUN.Sound
-{
-    public class SoundManager : MonoBehaviour {
-		private static SoundManager _ins;
-		public static SoundManager ins {
+namespace LowoUN.Sound {
+	public class SoundManager : MonoBehaviour {
+		private static SoundManager _Instance;
+		public static SoundManager Instance {
 			get {
-				if (_ins == null)
+				if (_Instance == null)
 					Debug.Log ("sound_ No sound module found!");
 
-				return _ins;
+				return _Instance;
 			}
 		}
 
-		[SerializeField] private float _sfxVolume = 1.0f;
-		[SerializeField] private float _bgmVolume = 1.0f;
-		[SerializeField] private SoundSet setterUI;
-		[SerializeField] private SoundSet setterEvt;
-		[SerializeField] private SoundSetCollector settersActor;
-		[SerializeField] private bool isBgmEnable = true;
-		[SerializeField] private bool isSfxEnable = true;
+		[SerializeField] float m_sfxVolume = 1.0f;
+		[SerializeField] float m_bgmVolume = 1.0f;
+		[SerializeField] SoundSet m_setterUI;
+		[SerializeField] SoundSet m_setterEvt;
+		[SerializeField] SoundSetCollector m_settersActor;
+		[SerializeField] bool m_isBgmEnable = true;
+		[SerializeField] bool m_isSfxEnable = true;
 
 		//inclule evt and ui type
-		public float sfxVolume { get { return _sfxVolume; } private set { _sfxVolume = value; } }
+		public float sfxVolume { get { return m_sfxVolume; } private set { m_sfxVolume = value; } }
 
-		public float bgmVolume { get { return _bgmVolume; } private set { _bgmVolume = value; } }
+		public float bgmVolume { get { return m_bgmVolume; } private set { m_bgmVolume = value; } }
 		private AudioSource bgmSource;
 		private bool isStopOrPlayCurBgm = false;
 		private float fadeVolume = 0.0f;
@@ -39,7 +38,7 @@ namespace LowoUN.Sound
 		private bool hasInit = false;
 
 		void Awake () {
-			_ins = this;
+			_Instance = this;
 		}
 
 		void Start () {
@@ -51,23 +50,24 @@ namespace LowoUN.Sound
 		}
 
 		void OnDestroy () {
-			_ins = null;
+			_Instance = null;
 			hasInit = false;
 			evts.Clear ();
 		}
 
 		private void OnInit () {
-			if (!hasInit) {
-				hasInit = true;
+			if (hasInit)
+				return;
 
-				listener = new GameObject ("Listener").transform;
-				listener.parent = transform;
-				listener.gameObject.AddComponent<AudioListener> ();
+			hasInit = true;
 
-				bgmSource = listener.gameObject.AddComponent<AudioSource> ();
-				bgmSource.spatialBlend = 0.0f;
-				bgmSource.volume = fadeVolume * bgmVolume;
-			}
+			listener = new GameObject ("Listener").transform;
+			listener.parent = transform;
+			listener.gameObject.AddComponent<AudioListener> ();
+
+			bgmSource = listener.gameObject.AddComponent<AudioSource> ();
+			bgmSource.spatialBlend = 0.0f;
+			bgmSource.volume = fadeVolume * bgmVolume;
 		}
 
 		public void Reset () {
@@ -84,23 +84,25 @@ namespace LowoUN.Sound
 		}
 
 		public void ToggleBgm () {
-			isBgmEnable = !isBgmEnable;
+			m_isBgmEnable = !m_isBgmEnable;
 
-			if (!isBgmEnable)
+			if (!m_isBgmEnable)
 				StopBgm ();
 		}
 		public void ToggleSfx () {
-			isSfxEnable = !isSfxEnable;
+			m_isSfxEnable = !m_isSfxEnable;
 
-			if (!isSfxEnable) {
+			if (!m_isSfxEnable) {
 				StopEvts ();
 			}
 		}
 
 		//1, bgm ----------------------------------------------------------------
 		public void PlayBgm (string bgmBundleName, bool loop = true, float fadeInTime = 1f) {
-			if (!isBgmEnable) return;
-			if (curBgmName == bgmBundleName) return;
+			if (!m_isBgmEnable)
+				return;
+			if (curBgmName == bgmBundleName)
+				return;
 
 			curBgmName = bgmBundleName;
 			float fIn = 1.0f / fadeInTime;
@@ -117,7 +119,7 @@ namespace LowoUN.Sound
 		private IEnumerator LoadAndPlayBgm (string bundleName, bool loop, float fadeInTime) {
 			yield return null;
 
-			Debug.Log("sound_ LoadAndPlayBgm with bundleName: " + bundleName);
+			Debug.Log ("sound_ LoadAndPlayBgm with bundleName: " + bundleName);
 
 			if (bgmSource.clip != null) {
 				Resources.UnloadAsset (bgmSource.clip);
@@ -133,21 +135,23 @@ namespace LowoUN.Sound
 		//2, sfx ------------------------------------------------------------------
 		private List<AudioSource> evts = new List<AudioSource> ();
 		public void PlayEvt (string groupName, bool loop = false, float fadeTime = 0.5f, GameObject go = null) {
-			if (!isSfxEnable) return;
+			if (!m_isSfxEnable)
+				return;
 
-			if (setterEvt != null) {
-				AudioSource s = setterEvt.Play (groupName, go??gameObject);
+			if (m_setterEvt != null) {
+				AudioSource s = m_setterEvt.Play (groupName, go??gameObject);
 				s.spatialBlend = 0.0f;
-				setterEvt.PlayOneShot (s, sfxVolume);
+				m_setterEvt.PlayOneShot (s, sfxVolume);
 
 				evts.Add (s);
 			}
 		}
 
 		public void PlayAct (string soundID, string evtName, GameObject go, bool loop = false, float fadeTime = 0.5f) {
-			if (!isSfxEnable) return;
+			if (!m_isSfxEnable)
+				return;
 
-			SoundSet setter_act = SoundSetCollector.instance.GetSoundSet ("sfx_" + soundID);
+			SoundSet setter_act = m_settersActor.GetSoundSet ("sfx_" + soundID);
 			if (setter_act != null) {
 				AudioSource s = setter_act.Play (evtName, gameObject);
 				s.spatialBlend = 0.0f;
@@ -165,20 +169,21 @@ namespace LowoUN.Sound
 			evts.Clear ();
 		}
 		public void StopEvt (AudioSource s, float fadeOutTime = 0.5f) {
-			if (setterEvt != null)
-				setterEvt.Stop (s, fadeOutTime);
+			if (m_setterEvt != null)
+				m_setterEvt.Stop (s, fadeOutTime);
 		}
 
 		//3, ui ----------------------------------------------------------------
 		public void PlayUI (string groupName, bool isLoop = false) {
-			if (!isSfxEnable) return;
+			if (!m_isSfxEnable)
+				return;
 
-			if (setterUI != null) {
+			if (m_setterUI != null) {
 				if (isLoop) {
-					setterUI.PlayLoop (groupName, gameObject);
+					m_setterUI.PlayLoop (groupName, gameObject);
 				} else {
-					AudioSource a = setterUI.Play (groupName, gameObject);
-					setterUI.PlayOneShot (a, 1f);
+					AudioSource a = m_setterUI.Play (groupName, gameObject);
+					m_setterUI.PlayOneShot (a, 1f);
 				}
 			}
 		}
