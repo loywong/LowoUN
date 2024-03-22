@@ -175,6 +175,7 @@ MonoBehaviour:
   CountAll: 0
   CountInactive: 0
   currentNumber: 0
+  ps_go: {fileID: 5755086039754735163, guid: 86797991fca212a4ab174ef5afb78a9f, type: 3}
 --- !u!1 &2027213441
 GameObject:
   m_ObjectHideFlags: 0

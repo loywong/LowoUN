@@ -107,7 +107,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6812669599515561409}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: Pool_Cube
   m_TagString: TEST
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
