@@ -12,10 +12,10 @@ namespace LowoUN.Util {
             }
         }
 
-        public virtual void OnInit () {
+        public virtual void Init () {
 
         }
-        public virtual void OnDispose () {
+        public virtual void End () {
             _Instance = default (T);
         }
     }
@@ -43,7 +43,7 @@ namespace LowoUN.Util {
             }
         }
 
-        public virtual void OnInit () {
+        public virtual void Init () {
             Debug.Log ("[" + typeof (T).ToString () + "] of monobehaviour type oninited!!!");
         }
     }
