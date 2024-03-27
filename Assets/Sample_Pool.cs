@@ -19,9 +19,6 @@ public class Sample_Pool : MonoBehaviour {
     GameObject[] allCubes; // 当前所有从对象池Get出的对象
 
     void Awake () {
-        //构建对象池 ParticleSystem
-        PoolManager.Instance.CreatePool_ParticleSystem ();
-
         //构建对象池 GameObject
         cubePool = PoolManager.Instance.CreatePool (cube, initDefaultCapacity, poolMaxSize);
 
@@ -48,7 +45,7 @@ public class Sample_Pool : MonoBehaviour {
 
     void Release_All () {
         allCubes = GameObject.FindGameObjectsWithTag ("TEST");
-        Debug.Log ($"allEnemies length: {allCubes.Length}");
+        Debug.Log ($"all test cubes length: {allCubes.Length}");
         for (int i = 0; i < allCubes.Length; i++) {
             cubePool.Release (allCubes[i]);
         }
@@ -78,26 +75,6 @@ public class Sample_Pool : MonoBehaviour {
         if (GUI.Button (new Rect (540, 120, 160, 40), "Destroy Pool")) {
             PoolManager.Instance.DestroyPool (cubePool);
             UpdateInfo ();
-        }
-
-        if (PoolManager.Instance.Pool_ParticleSystem != null) {
-            GUI.skin.label.fontSize = 30;
-            GUILayout.Label ("Pool size: " + PoolManager.Instance.Pool_ParticleSystem.CountInactive);
-            if (GUI.Button (new Rect (200, 5, 240, 40), "Create Particles")) {
-                var amount = Random.Range (1, 10);
-                for (int i = 0; i < amount; ++i) {
-                    var ps = PoolManager.Instance.Pool_ParticleSystem.Get ();
-                    ps.transform.position = Random.insideUnitSphere * 10;
-                    ps.Play ();
-                }
-            }
-        }
-
-        if (GUI.Button (new Rect (10, 200, 160, 40), "Pool Init()"))
-            PoolManager.Instance.Init ();
-        if (GUI.Button (new Rect (180, 200, 160, 40), "Pool End()")) {
-            Release_All();
-            PoolManager.Instance.End ();
         }
     }
 }

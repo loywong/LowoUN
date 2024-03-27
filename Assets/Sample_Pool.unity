@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 1541689751}
   - component: {fileID: 1541689752}
   m_Layer: 0
-  m_Name: __Entry
+  m_Name: __Entry_Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -175,7 +175,52 @@ MonoBehaviour:
   CountAll: 0
   CountInactive: 0
   currentNumber: 0
-  ps_go: {fileID: 5755086039754735163, guid: 86797991fca212a4ab174ef5afb78a9f, type: 3}
+--- !u!1 &1950694765
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1950694766}
+  - component: {fileID: 1950694767}
+  m_Layer: 0
+  m_Name: __Entry_ParticleSytem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1950694766
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1950694765}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1950694767
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1950694765}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1419b9c1eb9ed0d47b6585103185a4ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  particle: {fileID: 3551192294072502835, guid: 047ddeb36aa71bf4a9f761e9b0217e7e,
+    type: 3}
 --- !u!1 &2027213441
 GameObject:
   m_ObjectHideFlags: 0
