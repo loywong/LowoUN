@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using System.Diagnostics;
 using System.IO;
 using UnityEditor;
@@ -40,9 +41,10 @@ public class RunBat : Editor {
         }
     }
 
-    [MenuItem ("Assets/执行外部Bat", false, 5)]
+    [MenuItem ("Assets/执行外部Bat文件", false, 5)]
     private static void Run () {
         // 执行bat脚本
         RunMyBat ("TestBat.bat", Directory.GetParent (Application.dataPath) + "\\BatFiles\\");
     }
 }
+#endif

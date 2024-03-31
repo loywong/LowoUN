@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿#if UNITY_EDITOR
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
@@ -18,9 +19,9 @@ public class ResReference : EditorWindow {
     void OnDisable () { instance = null; }
 
     void OnGUI () {
-        if (dict == null) 
+        if (dict == null)
             return;
-        
+
         mScroll = GUILayout.BeginScrollView (mScroll);
 
         List<string> list = dict["level"];
@@ -287,7 +288,7 @@ public class ResReference : EditorWindow {
         if (!forceOn && !state) GUILayout.Space (3f);
         return state;
     }
-    
+
     /// <summary>
     /// 显示进度条
     /// </summary>
@@ -298,3 +299,4 @@ public class ResReference : EditorWindow {
         EditorUtility.DisplayProgressBar ("Searching", string.Format ("Checking ({0}/{1}), please wait...", cur, total), val);
     }
 }
+#endif

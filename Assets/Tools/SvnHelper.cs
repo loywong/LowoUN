@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using System.Diagnostics;
 using UnityEditor;
 using UnityEngine;
@@ -76,3 +77,4 @@ public class SvnHelper : Editor {
         return result;
     }
 }
+#endif
