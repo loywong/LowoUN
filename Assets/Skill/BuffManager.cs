@@ -1,18 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using LowoUN.Util;
 
-public class BuffManager : MonoBehaviour
-{
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+public class BuffManager : Manager<BuffManager> {
+    public void RemoveBuff_CreatorDie (BattleUnit creator) {
+        BattleUnitManager.Instance.hero?.RemoveBuff (creator);
+        foreach (var m in BattleUnitManager.Instance.monsters) {
+            m.RemoveBuff (creator);
+        }
     }
 }

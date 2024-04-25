@@ -18,14 +18,29 @@ public class BuffSys {
         Debug.Log ($"AddBuff, Cur buffs Count is {buffs.Count}");
 
         b.Init (hoster);
-        b.StartWork ();
+        b.Start ();
+    }
+
+    public void RemoveBuff (BattleUnit creator) {
+        if (buffs == null || buffs.Count == 0)
+            return;
+
+        List<Buff> bs = new List<Buff> ();
+        foreach (var b in buffs) {
+            if (b.creator == creator)
+                bs.Add (b);
+        }
+        foreach (var b in bs) {
+            buffs.Remove (b);
+            Debug.Log ($"RemoveBuff {b.config.type}, buffs Count is {buffs.Count}");
+        }
     }
 
     public void RemoveBuff (Buff b) {
         if (buffs == null || buffs.Count == 0)
             return;
 
-        b.StopWork ();
+        // b.End ();
         buffs.Remove (b);
 
         Debug.Log ($"RemoveBuff {b.config.type}, buffs Count is {buffs.Count}");

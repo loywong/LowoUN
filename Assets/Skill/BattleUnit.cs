@@ -1,13 +1,13 @@
 using System;
 
-// public enum BattleUnitState {
-//     None,
-//     Birth,
-//     Idle,
-//     Attack,
-//     Hurt,
-//     Dead
-// }
+public enum BattleUnitState {
+    None,
+    Birth,
+    Idle,
+    Attack,
+    Hurt,
+    Dead
+}
 
 public enum UnitCamp {
     Neutral,
@@ -27,18 +27,23 @@ public enum BattleUnitProperty {
     HP,
     ATK,
 }
+
 public enum BattleUnitType {
     None,
+    Scene, //Global, may do something like casting buffs, disabled when leave the scene
     Hero1,
     Monster1
 }
+
 public class BattleUnitConfig {
     public BattleUnitType unitType;
     public string name;
     public UnitCamp camp;
+    public int BaseHP;
 }
+
 public class BattleUnitProfile {
-    BattleUnitConfig config;
+    public BattleUnitConfig config { get; private set; }
     public int id;
     public UnitType unitType;
     // public Camp camp;
@@ -54,43 +59,40 @@ public class BattleUnitProfile {
 
 public class BattleUnit {
     public BattleUnitProfile profile;
-    // public BattleUnitState state;
+    public BattleUnitConfig config => profile.config;
+    public BattleUnitState state { private set; get; }
     // 各种组件
     BuffSys buffSys;
 
     //信息同步
     public Action onPropertyChange_Hp;
 
-    public void ClearAll () { }
-
     public BattleUnit (BattleUnitConfig buc, int lv) {
         profile = new BattleUnitProfile (buc);
         profile.lv = lv;
         profile.maxHP = 1000;
-        profile.curHP = 1000; // must be less than hp
+        profile.curHP = buc.BaseHP * lv; // must be less than hp
 
-        // state = BattleUnitState.None;
+        state = BattleUnitState.None;
     }
 
-    // public void SetState_Birth () {
-    //     SetState (BattleUnitState.Birth);
-    // }
-    // private void SetState (BattleUnitState s) {
-    //     state = s;
-    // }
+    public void SetState (BattleUnitState s) {
+        state = s;
+    }
 
     public void AddBuff (Buff b) {
         buffSys = buffSys?? new BuffSys (this);
         buffSys.AddBuff (b);
     }
-    public void RemoveBuff (Buff b) {
-        if (buffSys == null)
-            return;
 
-        buffSys.RemoveBuff (b);
+    public void RemoveBuff (BattleUnit bu) {
+        buffSys?.RemoveBuff (bu);
     }
 
-    // 修改属性
+    public void RemoveBuff (Buff b) {
+        buffSys?.RemoveBuff (b);
+    }
+
     public void ModifyProperty (BattleUnitProperty propType, float value) {
         switch (propType) {
             case BattleUnitProperty.HP:

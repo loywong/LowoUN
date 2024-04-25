@@ -20,48 +20,38 @@ public enum BuffType {
 
 public struct BuffConfig {
     public BuffType type;
-    public int actionTimeType; //BuffActionType
+    public int actionTimes;
+    public int actionValue;
     public float actionTimeInterval;
     public bool isAdditive;
 }
 
 public class Buff {
-    public BattleUnit target;
-    public BuffConfig config;
+    public BattleUnit creator { private set; get; }
+    public BattleUnit target { private set; get; }
+    public BuffConfig config { private set; get; }
 
     int curActTime;
-    public Buff (BuffConfig bc) {
+    public Buff (BattleUnit creator, BuffConfig bc) {
+        this.creator = creator;
         config = bc;
     }
 
-    public void Init (BattleUnit unit) {
-        target = unit;
-        StopWork();
+    public void Init (BattleUnit target) {
+        this.target = target;
+        isStartWork = false;
+        curActTime = 0;
+        timer = 0;
     }
 
     bool isStartWork;
-    public void StartWork () {
+    public void Start () {
         curActTime = 0;
         timer = 0;
-        
-        if (config.actionTimeType == -1) {
-            isStartWork = true;
-            // 无限循环
-            return;
-        }
-        if (config.actionTimeType == 1) {
-            isStartWork = false;
-            // 1次
-            target?.ModifyProperty (CheckBattleUnitProperty (config.type), -5);
-            return;
-        }
-        if (config.actionTimeType > 1) {
-            isStartWork = true;
-            // 多次
-            return;
-        }
+        isStartWork = true;
 
-        Debug.LogError ($"config.actionType value {config.actionTimeType} is not valid!");
+        if (config.actionTimes == 0 || config.actionTimes < -1)
+            Debug.LogError ($"config.actionType value {config.actionTimes} is not valid!");
     }
 
     // BuffType --- BattleUnitProperty
@@ -80,10 +70,12 @@ public class Buff {
         }
     }
 
-    public void StopWork () {
+    public void End () {
         isStartWork = false;
         curActTime = 0;
         timer = 0;
+
+        target?.RemoveBuff (this);
     }
 
     float timer;
@@ -94,20 +86,20 @@ public class Buff {
 
         timer += Time.deltaTime;
 
-        if (config.actionTimeType == -1) {
+        if (config.actionTimes == -1) {
             if (timer >= config.actionTimeInterval) {
                 timer = 0;
                 curActTime += 1;
-                target?.ModifyProperty (CheckBattleUnitProperty (config.type), -5);
+                target?.ModifyProperty (CheckBattleUnitProperty (config.type), config.actionValue);
             }
-        } else if (config.actionTimeType > 1) {
-            if (curActTime >= config.actionTimeType)
-                StopWork ();
+        } else if (config.actionTimes >= 1) {
+            if (curActTime >= config.actionTimes)
+                End ();
             else {
                 if (timer >= config.actionTimeInterval) {
                     timer = 0;
                     curActTime += 1;
-                    target?.ModifyProperty (CheckBattleUnitProperty (config.type), -5);
+                    target?.ModifyProperty (CheckBattleUnitProperty (config.type), config.actionValue);
                 }
             }
         }
