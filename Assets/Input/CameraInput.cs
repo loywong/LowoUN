@@ -2,9 +2,9 @@
 using UnityEngine;
 
 public class CameraInput : MonoBehaviour {
-    [Tooltip("主相机前进后退速度")][SerializeField] private float moveSpeed = 10f;
-    [Tooltip("主相机左右旋转速度")][SerializeField] private float rotaionSpeed = 100;
-    [Tooltip("主相机左右旋转最大范围限制")][SerializeField] private float yRotaionLimit = 120;
+    [Header("主相机前进后退速度")][SerializeField] private float moveSpeed = 10f;
+    [Header("主相机左右旋转速度")][SerializeField] private float rotaionSpeed = 100;
+    [Header("主相机左右旋转最大范围限制")][SerializeField] private float yRotaionLimit = 120;
 
     private Transform tarCam;
     void Start () {
