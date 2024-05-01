@@ -213,11 +213,9 @@ namespace LowoUN.Util {
         }
 
         private void OnElapsed (object sender, ElapsedEventArgs e) {
-            // Debug.Log($"______________________isForDateTime{isForDateTime} loopLimit{loopLimit} curTimes{curTimes} times{times}");
             if (!isForDateTime) {
                 if (loopLimit) {
                     curTimes += 1;
-                    // Debug.Log($"______________________ curTimes{curTimes} times{times}");
                     if (curTimes >= times) {
                         timer.Stop ();
                         TimeWatcher.Instance.OnCallback (name);
@@ -231,28 +229,6 @@ namespace LowoUN.Util {
                         timer.Stop ();
                     TimeWatcher.Instance.OnCallback (name);
                 }
-
-                // if (!loop) {
-                //     timer.Stop ();
-                //     TimeWatcher.Instance.OnCallback (name);
-                // } else {
-                //     // infinite loop
-                //     if (!loopLimit) {
-                //         TimeWatcher.Instance.OnCallback (name);
-                //     }
-                //     // limit times loop
-                //     else {
-                //         curTimes += 1;
-                //         if (curTimes >= times) {
-                //             timer.Stop ();
-                //             TimeWatcher.Instance.OnCallback (name);
-                //         } else {
-                //             TimeWatcher.Instance.OnCallback (name);
-                //             timer.Interval = mseconds;
-                //             timer.Start ();
-                //         }
-                //     }
-                // }
             } else {
                 timer.Stop ();
                 TimeWatcher.Instance.OnCallback (name);
