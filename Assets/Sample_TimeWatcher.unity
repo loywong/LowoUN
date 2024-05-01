@@ -152,7 +152,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 045a86735f05b40728586eb0000d4960, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  specificTime: 10:00:00
+  milliseconds_1: 5000
+  milliseconds_2: 3000
+  milliseconds_3: 1000
+  numOfTimes: 3
+  dateTime_specificTime: 13:00:00
 --- !u!4 &1826514620
 Transform:
   m_ObjectHideFlags: 0
