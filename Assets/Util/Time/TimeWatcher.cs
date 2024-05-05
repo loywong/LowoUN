@@ -1,14 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Timers;
 using UnityEngine;
 
 namespace LowoUN.Util {
     public class TimeWatcher : ManagerMono<TimeWatcher> {
-        private Dictionary<string, WatchData> name2watch = new Dictionary<string, WatchData> ();
+        private Dictionary<string, WatchObj> name2watch = new Dictionary<string, WatchObj> ();
         private Dictionary<string, Action> name2action = new Dictionary<string, Action> ();
         private Queue<Action> cbqueue = new Queue<Action> ();
 
+        private Dictionary<string, WatchObj_Frame> name2watch_frame = new Dictionary<string, WatchObj_Frame> ();
+        private List<string> name2watch_frame_toremove = new List<string> ();
+
+        public void AddWatcher_DelayMsecond (string name, uint mseconds, Action callback, bool isTimeScaleAff = true) {
+            AddWatcher (name, mseconds, false, callback);
+        }
         public void AddWatcher_Once (string name, uint mseconds, Action callback, bool isTimeScaleAff = true) {
             AddWatcher (name, mseconds, false, callback);
         }
@@ -18,10 +23,31 @@ namespace LowoUN.Util {
         public void AddWatcher_Multi (string name, uint mseconds, uint times, Action callback, bool isTimeScaleAff = true) {
             AddWatcher (name, mseconds, times, callback);
         }
+
         public void AddWatcher_DateTime (string name, string dateTime_specificTime, bool loop, Action callback, bool isTimeScaleAff = true) {
             var timeString = DateTime.Now.Date.ToShortDateString () + " " + dateTime_specificTime;
             Debug.Log ($"timeString {timeString}");
             AddWatcher ("test4", DateTime.Parse (timeString), loop, callback);
+        }
+
+        public void AddWatcher_DelayFrame (string name, uint frames, Action callback, bool isTimeScaleAff = true) {
+            AddWatcher_Frame (name, frames, false, callback);
+        }
+        public void AddWatcher_Frame_Once (string name, uint frames, Action callback, bool isTimeScaleAff = true) {
+            AddWatcher_Frame (name, frames, false, callback);
+        }
+        public void AddWatcher_Frame_Loop (string name, uint frames, Action callback, bool isTimeScaleAff = true) {
+            AddWatcher_Frame (name, frames, true, callback);
+        }
+        // public void AddWatcher_Frame_Multi (string name, uint frames, Action callback, bool isTimeScaleAff = true) {
+        //     AddWatcher_Frame (name, frames, false, callback);
+        // }
+        private void AddWatcher_Frame (string name, uint frames, bool loop, Action callback, bool isTimeScaleAff = true) {
+            if (name2watch_frame.ContainsKey (name)) {
+                Debug.LogWarning ($"This name {name} of frame delay event has exist!");
+                return;
+            }
+            name2watch_frame[name] = new WatchObj_Frame (name, frames, loop);
         }
 
         /// <summary>
@@ -45,7 +71,7 @@ namespace LowoUN.Util {
             if (ms <= 0)
                 return;
 
-            name2watch[name] = new WatchData (name, ms, loop);
+            name2watch[name] = new WatchObj (name, ms, loop);
             name2action[name] = callback;
             name2watch[name].Start ();
         }
@@ -71,7 +97,7 @@ namespace LowoUN.Util {
             if (ms <= 0)
                 return;
 
-            name2watch[name] = new WatchData (name, ms, times);
+            name2watch[name] = new WatchObj (name, ms, times);
             name2action[name] = callback;
             name2watch[name].Start ();
         }
@@ -88,7 +114,7 @@ namespace LowoUN.Util {
                 return;
             }
 
-            var w = new WatchData (name, time, loop);
+            var w = new WatchObj (name, time, loop);
             name2watch[name] = w;
             name2action[name] = callback;
 
@@ -118,6 +144,22 @@ namespace LowoUN.Util {
             Debug.Log ($"RemoveWatcher event key: {name}, succ!");
         }
 
+        public void RemoveWatcher_Frame (string name) {
+            if (!name2watch_frame.ContainsKey (name)) {
+                Debug.Log ($"RemoveWatcher has no event key:{name}");
+                return;
+            }
+
+            name2watch_frame[name].End ();
+            name2watch_frame_toremove.Add (name);
+            Debug.Log ($"RemoveWatcher event key: {name}, succ!");
+        }
+
+        public void OnCallback_Frame (string name) {
+            if (!name2watch_frame[name].loop) {
+                RemoveWatcher_Frame (name);
+            }
+        }
         public void OnCallback (string name) {
             if (!name2action.ContainsKey (name))
                 return;
@@ -133,6 +175,17 @@ namespace LowoUN.Util {
                 Action action = cbqueue.Dequeue ();
                 action?.Invoke ();
             }
+
+            if (name2watch_frame.Count > 0) {
+                foreach (var key in name2watch_frame_toremove) {
+                    name2watch_frame.Remove (key);
+                    Debug.Log ($"Real key {key}, name2watch_frame.Count: {name2watch_frame.Count}");
+                }
+                name2watch_frame_toremove.Clear ();
+
+                foreach (var item in name2watch_frame)
+                    item.Value.UpdateFrame ();
+            }
         }
 
         void OnApplicationQuit () {
@@ -145,113 +198,24 @@ namespace LowoUN.Util {
             cbqueue.Clear ();
         }
 
-        // Check time event is exist
+        // Check time event existed!
         public bool ContainKey (string key) {
             if (key == null) {
                 Debug.LogWarning ("Invalid key:null");
                 return false;
             }
 
-            return name2watch.ContainsKey (key);
-        }
-    }
+            bool isContain = false;
 
-    public class WatchData {
-        private string name;
-        private Timer timer;
-        public bool loop { private set; get; }
-        private bool isForDateTime;
+            isContain = name2watch.ContainsKey (key);
+            if (isContain)
+                return true;
 
-        // limit times loop
-        private bool loopLimit { get { return times > 1; } }
-        public bool loopLimitAndComplete { get { return loopLimit && curTimes >= times; } }
-        private uint times;
-        private uint mseconds;
-        private uint curTimes;
+            isContain = name2watch_frame.ContainsKey (key);
+            if (isContain)
+                return true;
 
-        public WatchData (string name, uint mseconds, bool loop) {
-            isForDateTime = false;
-
-            this.name = name;
-            this.loop = loop;
-
-            timer = new Timer (mseconds);
-            timer.Elapsed += OnElapsed;
-            timer.AutoReset = loop;
-        }
-
-        public WatchData (string name, uint mseconds, uint times) {
-            isForDateTime = false;
-
-            this.name = name;
-            this.loop = true;
-            this.times = times;
-            this.mseconds = mseconds;
-
-            timer = new Timer (mseconds);
-            timer.Elapsed += OnElapsed;
-            timer.AutoReset = loop;
-
-            curTimes = 0;
-        }
-
-        public WatchData (string name, DateTime time, bool loop) {
-            isForDateTime = true;
-
-            this.name = name;
-            this.loop = loop;
-
-            TimeSpan span = time - DateTime.Now;
-            if (span.TotalMilliseconds > 0) {
-                timer = new Timer (span.TotalMilliseconds);
-            } else {
-                span = time.AddDays (1) - DateTime.Now;
-                timer = new Timer (span.TotalMilliseconds);
-            }
-            timer.Elapsed += OnElapsed;
-            timer.AutoReset = false;
-        }
-
-        private void OnElapsed (object sender, ElapsedEventArgs e) {
-            if (!isForDateTime) {
-                if (loopLimit) {
-                    curTimes += 1;
-                    if (curTimes >= times) {
-                        timer.Stop ();
-                        TimeWatcher.Instance.OnCallback (name);
-                    } else {
-                        TimeWatcher.Instance.OnCallback (name);
-                        timer.Interval = mseconds;
-                        timer.Start ();
-                    }
-                } else {
-                    if (!loop)
-                        timer.Stop ();
-                    TimeWatcher.Instance.OnCallback (name);
-                }
-            } else {
-                timer.Stop ();
-                TimeWatcher.Instance.OnCallback (name);
-
-                if (loop) {
-                    timer.Interval = new TimeSpan (24, 0, 0).Milliseconds;
-                    timer.Start ();
-                }
-            }
-        }
-
-        public void Start () {
-            timer.Start ();
-        }
-
-        public void Stop () {
-            timer.Stop ();
-        }
-
-        public void End () {
-            timer.Stop ();
-            timer.Elapsed -= OnElapsed;
-            timer.Dispose ();
+            return false;
         }
     }
 }
