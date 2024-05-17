@@ -4,25 +4,16 @@ namespace LowoUN.Util {
     public class Manager<T> where T : new () {
         protected static T _Instance = default (T);
 
-        public static T Instance {
-            get {
-                if (_Instance == null)
-                    _Instance = new T ();
-                return _Instance;
-            }
-        }
+        public static T Instance => _Instance ?? new T ();
 
         public virtual void Init () {
-
-        }
-        public virtual void End () {
-            _Instance = default (T);
+            Debug.Log ("[" + typeof (T).ToString () + "] of Singletom type inited!!!");
         }
     }
 
     // 基于UNity MonoBehaviour
     public class ManagerMono<T> : MonoBehaviour where T : MonoBehaviour {
-        protected static T _Instance = default (T);
+        private static T _Instance = default (T);
 
         public static T Instance {
             get {
@@ -31,6 +22,7 @@ namespace LowoUN.Util {
                     if (go == null) {
                         go = new GameObject ("Manager");
                         DontDestroyOnLoad (go);
+
                         _Instance = go.AddComponent<T> ();
                     } else {
                         _Instance = go.GetComponent<T> ();
@@ -44,7 +36,7 @@ namespace LowoUN.Util {
         }
 
         public virtual void Init () {
-            Debug.Log ("[" + typeof (T).ToString () + "] of monobehaviour type oninited!!!");
+            Debug.Log ("[" + typeof (T).ToString () + "] of monobehaviour type inited!!!");
         }
     }
 }

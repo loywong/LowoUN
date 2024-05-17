@@ -30,8 +30,6 @@ namespace LowoUN.UI {
         }
 
         public void SetTheme_Lobby () {
-            return;
-
             theme_Lobby.SetActive (true);
             theme_Battle.SetActive (false);
 
@@ -41,8 +39,6 @@ namespace LowoUN.UI {
         }
 
         public void SetTheme_Battle () {
-            return;
-
             theme_Lobby.SetActive (false);
             theme_Battle.SetActive (true);
         }
