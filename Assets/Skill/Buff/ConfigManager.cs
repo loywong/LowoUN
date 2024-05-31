@@ -15,10 +15,8 @@ public class ConfigManager : Manager<ConfigManager> {
     }
 
     public override void Init () {
-        buffs = new Dictionary<BuffType, BuffConfig> ();
         buffs[BuffType.ReduceHP] = new BuffConfig () { type = BuffType.ReduceHP, actionTimes = 5, actionTimeInterval = 2, actionValue = -6, isAdditive = false };
 
-        battleUnits = new ();
         // battleUnits[BattleUnitType.Scene] = new BattleUnitConfig () { unitType = BattleUnitType.Scene, camp = UnitCamp.Neutral, name = "Scene" };
         battleUnits[BattleUnitType.Hero1] = new BattleUnitConfig () { unitType = BattleUnitType.Hero1, camp = UnitCamp.Hero, BaseHP = 1000, name = "Hero1" };
         battleUnits[BattleUnitType.Monster1] = new BattleUnitConfig () { unitType = BattleUnitType.Scene, camp = UnitCamp.Monster, BaseHP = 300, name = "Monster1" };

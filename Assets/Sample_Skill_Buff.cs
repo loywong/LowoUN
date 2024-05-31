@@ -17,7 +17,7 @@ public class Sample_Skill_Buff : MonoBehaviour {
             BattleUnitManager.Instance.CreateMonster ();
         }
 
-        if (GUI.Button (new Rect (30, 55, 200, 40), "Add Buff To Hero")) {
+        if (GUI.Button (new Rect (30, 55, 240, 40), "Monster add Buff to Hero")) {
             if (BattleUnitManager.Instance.monsters.Count == 0)
                 Debug.LogError ("Create a monster first!");
             if (BattleUnitManager.Instance.hero == null)

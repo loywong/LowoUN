@@ -2,12 +2,18 @@ using UnityEngine;
 
 namespace LowoUN.Util {
     public class Manager<T> where T : new () {
-        protected static T _Instance = default (T);
+        private static T _Instance = default (T);
 
-        public static T Instance => _Instance ?? new T ();
+        public static T Instance {
+            get {
+                if (_Instance == null)
+                    _Instance = new T ();
+                return _Instance;
+            }
+        }
 
         public virtual void Init () {
-            Debug.Log ("[" + typeof (T).ToString () + "] of Singletom type inited!!!");
+            Debug.Log ("[" + typeof (T).ToString () + "] of Singleton type inited!!!");
         }
     }
 
@@ -36,7 +42,7 @@ namespace LowoUN.Util {
         }
 
         public virtual void Init () {
-            Debug.Log ("[" + typeof (T).ToString () + "] of monobehaviour type inited!!!");
+            Debug.Log ("[" + typeof (T).ToString () + "] of monobehaviour Singleton type inited!!!");
         }
     }
 }
