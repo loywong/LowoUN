@@ -327,7 +327,7 @@ GameObject:
   - component: {fileID: 1541689751}
   - component: {fileID: 1541689752}
   m_Layer: 0
-  m_Name: __Sample_Skill_Buff
+  m_Name: __Sample_Buff
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

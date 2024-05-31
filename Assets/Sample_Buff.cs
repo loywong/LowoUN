@@ -1,7 +1,8 @@
+using LowoUN.Buff;
 using UnityEngine;
 
 // TEST CASE:A monster cast a buff to Hero
-public class Sample_Skill_Buff : MonoBehaviour {
+public class Sample_Buff : MonoBehaviour {
     void Start () {
         ConfigManager.Instance.Init ();
     }
