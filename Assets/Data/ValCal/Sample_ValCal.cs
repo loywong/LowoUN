@@ -1,4 +1,4 @@
-using LowoUN.ValCal;
+using LowoUN.Data;
 using UnityEngine;
 
 public class Sample_ValCal : MonoBehaviour {

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace LowoUN.ValCal {
+namespace LowoUN.Data {
     public enum Enum_AttrID : byte {
         None,
         HP,

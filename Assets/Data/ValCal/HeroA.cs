@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace LowoUN.ValCal {
+namespace LowoUN.Data {
     public class EquipItemProfile_Ring {
         public float hpParam = 0.3f; //extra
         public AttrBlock.ValueAction hpAction = AttrBlock.ValueAction.Multi;

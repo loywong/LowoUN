@@ -1,4 +1,4 @@
-namespace LowoUN.ValCal {
+namespace LowoUN.Data {
     public enum Enum_BlockType {
         None,
         Base, //TODO 角色等级变化
