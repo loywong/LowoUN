@@ -14,11 +14,12 @@ namespace LowoUN.UI {
                 Destroy (gameObject);
                 return;
             }
-
-            Log.Green ("flow", ">>>>>> UIManager{} Awake()");
-
             Instance = this;
             DontDestroyOnLoad (gameObject);
+        }
+
+        public void Init () {
+            Log.Green ("flow", ">>>>>> UIManager{} Init()");
         }
 
         public void ShowLoadingUI (GameState state) {

@@ -1,3 +1,5 @@
+using LowoUN.UI;
+using LowoUN.Util;
 using UnityEngine;
 
 namespace LowoUN.Scene {
@@ -6,6 +8,10 @@ namespace LowoUN.Scene {
 
         bool isSkipSplashEnabled = true;
         void Start () {
+            Log.Init (isDebug);
+
+            UIManager.Instance.Init();
+
             StartGame ();
         }
 
