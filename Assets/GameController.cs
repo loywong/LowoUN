@@ -40,16 +40,16 @@ namespace LowoUN.Scene {
 
             switch (state) {
                 case GameState.Splash:
-                    SceneLoader.Instance.LoadScene_New ("Splash", UIManager.Instance.LoadingProgress, () => { StartScene (state, SplashController.Instance.OnStart); });
+                    SceneLoader.Instance.LoadScene_New ("Splash", UIManager.Instance.LoadingProgress, () => { StartScene (state, SplashController.Instance.Enter___); });
                     break;
                 case GameState.Login:
-                    SceneLoader.Instance.LoadScene_New ("Login", UIManager.Instance.LoadingProgress, () => { StartScene (state, LoginController.Instance.OnStart); });
+                    SceneLoader.Instance.LoadScene_New ("Login", UIManager.Instance.LoadingProgress, () => { StartScene (state, LoginController.Instance.Enter___); });
                     break;
                 case GameState.Lobby:
-                    SceneLoader.Instance.LoadScene_New ("Lobby", UIManager.Instance.LoadingProgress, () => { StartScene (state, LobbyController.Instance.OnStart); });
+                    SceneLoader.Instance.LoadScene_New ("Lobby", UIManager.Instance.LoadingProgress, () => { StartScene (state, LobbyController.Instance.Enter___); });
                     break;
                 case GameState.Battle:
-                    SceneLoader.Instance.LoadScene_New ("Battle", UIManager.Instance.LoadingProgress, () => { StartScene (state, BattleController.Instance.OnStart); });
+                    SceneLoader.Instance.LoadScene_New ("Battle", UIManager.Instance.LoadingProgress, () => { StartScene (state, BattleController.Instance.Enter___); });
                     break;
                 default:
                     Debug.LogError ($"scene_ No Game Sate Found: {state}");
@@ -92,13 +92,13 @@ namespace LowoUN.Scene {
             CommonEnd ();
             switch (curState) {
                 case GameState.Login:
-                    LoginController.Instance.OnEnd ();
+                    LoginController.Instance.Exit___ ();
                     break;
                 case GameState.Lobby:
-                    LobbyController.Instance.OnEnd ();
+                    LobbyController.Instance.Exit___ ();
                     break;
                 case GameState.Battle:
-                    BattleController.Instance.OnEnd ();
+                    BattleController.Instance.Exit___ ();
                     break;
                 default:
                     Debug.Log ($"scene_ No Game Sate Found: {curState.ToString ()}");

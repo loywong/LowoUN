@@ -2,9 +2,9 @@ using LowoUN.Util;
 
 namespace LowoUN.Scene {
     public class BattleController : Manager<BattleController>, IScene {
-        public void OnStart () { }
+        public void Enter___ () { }
 
-        public void OnEnd () { }
+        public void Exit___ () { }
 
         // 在不切换到其他场景的情况下，重新开始
         public void OnRestart () { }
